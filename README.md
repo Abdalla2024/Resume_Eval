@@ -31,30 +31,6 @@ python -m spacy download en_core_web_sm
 python3 app.py
 ```
 
-## 📁 Project Structure
-
-```
-Resume_Eval/
-├── README.md                 # This file
-├── .gitignore               # Git ignore rules
-├── simple/                  # Simple version (recommended)
-│   ├── README.md           # Simple version documentation
-│   ├── app_simple.py       # Main application
-│   ├── requirements_simple.txt  # Dependencies
-│   ├── setup_simple.py     # Automated setup
-│   └── test_simple.py      # Functionality tests
-├── full/                    # Full version (advanced)
-│   ├── README.md           # Full version documentation
-│   ├── app.py              # Main application with spaCy
-│   ├── requirements.txt    # Dependencies including spaCy
-│   ├── setup.py           # Automated setup with spaCy
-│   └── test_app.py        # Functionality tests
-├── templates/              # Shared web interface
-│   └── index.html         # Modern responsive frontend
-├── uploads/               # PDF upload directory
-└── venv/                 # Virtual environment
-```
-
 ## ✨ Key Features
 
 ### 📄 PDF Processing
