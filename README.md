@@ -1,178 +1,251 @@
 # Resume Evaluator
 
-A web application that analyzes how well your resume matches a job description and provides suggestions for improvement.
+A comprehensive Resume Evaluator application that analyzes PDF resumes, compares them against job descriptions, and provides detailed scores and improvement suggestions.
 
-## Features
+## 🚀 Quick Start
 
-- **PDF Resume Upload**: Upload your resume in PDF format
-- **Job Description Analysis**: Paste any job description for comparison
-- **Intelligent Scoring**: Get an overall match score based on keyword alignment
-- **Detailed Analysis**: See which keywords match and which are missing
-- **Improvement Suggestions**: Get actionable recommendations to improve your resume
-- **Modern UI**: Clean, responsive design that works on all devices
+Choose between two versions:
 
-## How It Works
+### 📦 Simple Version (Recommended)
 
-1. **Upload** your resume (PDF format)
-2. **Paste** the job description you're targeting
-3. **Get** instant analysis including:
-   - Overall match score (0-100%)
-   - Keyword alignment analysis
-   - Missing keywords from your resume
-   - Specific improvement suggestions
+- **No complex dependencies** - easy to install and run
+- **Fast setup** - works out of the box
+- **Advanced pattern matching** - 100+ technical skills
 
-## Quick Start
+```bash
+cd simple
+pip install -r requirements_simple.txt
+python3 app_simple.py
+```
 
-### ✅ Working Version (Recommended)
+### 🧠 Full Version (Advanced)
+
+- **spaCy integration** - sophisticated NLP analysis
+- **Enhanced processing** - named entity recognition
+- **More complex setup** - requires compilation
+
+```bash
+cd full
+pip install -r requirements.txt
+python -m spacy download en_core_web_sm
+python3 app.py
+```
+
+## 📁 Project Structure
+
+```
+Resume_Eval/
+├── README.md                 # This file
+├── .gitignore               # Git ignore rules
+├── simple/                  # Simple version (recommended)
+│   ├── README.md           # Simple version documentation
+│   ├── app_simple.py       # Main application
+│   ├── requirements_simple.txt  # Dependencies
+│   ├── setup_simple.py     # Automated setup
+│   └── test_simple.py      # Functionality tests
+├── full/                    # Full version (advanced)
+│   ├── README.md           # Full version documentation
+│   ├── app.py              # Main application with spaCy
+│   ├── requirements.txt    # Dependencies including spaCy
+│   ├── setup.py           # Automated setup with spaCy
+│   └── test_app.py        # Functionality tests
+├── templates/              # Shared web interface
+│   └── index.html         # Modern responsive frontend
+├── uploads/               # PDF upload directory
+└── venv/                 # Virtual environment
+```
+
+## ✨ Key Features
+
+### 📄 PDF Processing
+
+- Extracts text from PDF resumes using PyPDF2
+- Handles multiple page documents
+- Robust error handling for corrupted files
+
+### 🔍 Advanced Analysis
+
+- **100+ Technical Skills**: Programming languages, frameworks, tools
+- **Multi-word Phrase Detection**: "machine learning", "full stack", etc.
+- **Experience Extraction**: Years of experience patterns
+- **Education Detection**: Degree and certification recognition
+- **Company Information**: Email domain analysis
+
+### 📊 Intelligent Scoring
+
+- **Keyword Matching**: Direct alignment with job requirements
+- **Resume Length Optimization**: Ideal length scoring
+- **Keyword Density**: Relevance factor calculation
+- **Overall Score**: Weighted combination of all factors
+
+### 💡 Actionable Suggestions
+
+- **Missing Keywords**: Specific skills to add
+- **Content Improvement**: Length and detail recommendations
+- **Structure Enhancement**: Organization suggestions
+- **Industry Alignment**: Sector-specific advice
+
+### 🎨 Modern Web Interface
+
+- **Drag & Drop Upload**: Intuitive file handling
+- **Real-time Analysis**: Instant feedback
+- **Responsive Design**: Mobile and desktop optimized
+- **Beautiful UI**: Professional gradient design
+- **Interactive Results**: Color-coded keyword highlighting
+
+## 🛠️ Installation & Setup
+
+### Prerequisites
+
+- Python 3.8 or higher
+- pip package manager
+- Virtual environment (recommended)
+
+### Virtual Environment Setup
 
 ```bash
 # Create virtual environment
 python3 -m venv venv
-source venv/bin/activate
 
-# Install dependencies
-python3 setup_simple.py
-
-# Run the application
-python3 app_simple.py
+# Activate virtual environment
+source venv/bin/activate  # On macOS/Linux
+# or
+venv\Scripts\activate     # On Windows
 ```
 
-### Alternative: Manual Setup
+### Choose Your Version
+
+#### Simple Version (Recommended)
 
 ```bash
-# Create and activate virtual environment
-python3 -m venv venv
-source venv/bin/activate
-
-# Install dependencies
+cd simple
 pip install -r requirements_simple.txt
-
-# Run the application
 python3 app_simple.py
 ```
 
-## Usage
+#### Full Version (Advanced)
 
-1. Open your browser and go to `http://localhost:5001`
-2. Upload your resume (PDF format)
-3. Paste the job description in the text area
-4. Click "Evaluate Resume"
-5. Review your results and suggestions
-
-**Note**: Using port 5001 because port 5000 is often occupied by macOS AirPlay service.
-
-## Technical Details
-
-### Backend
-
-- **Flask**: Web framework
-- **Pattern Matching**: Advanced keyword extraction using regex and predefined skill lists
-- **PyPDF2**: PDF text extraction
-- **Flask-CORS**: Cross-origin resource sharing support
-
-**Note**: Currently using a simplified version without spaCy to avoid compilation issues on macOS. The pattern-matching approach still provides excellent keyword extraction and analysis.
-
-### Frontend
-
-- **HTML5/CSS3**: Modern, responsive design
-- **JavaScript**: Interactive UI and API communication
-- **No external libraries**: Pure vanilla JavaScript
-
-### Analysis Algorithm
-
-The application uses a sophisticated scoring system that:
-
-- Extracts keywords and skills from both resume and job description
-- Matches technical skills, tools, and relevant terminology
-- Calculates alignment percentage based on keyword overlap
-- Provides weighted scoring for different factors
-- Generates contextual suggestions based on the analysis
-
-## File Structure
-
-```
-Resume_Eval/
-├── app_simple.py          # Main Flask application (working version)
-├── requirements_simple.txt # Python dependencies (simplified)
-├── setup_simple.py       # Automatic setup script
-├── templates/
-│   └── index.html        # Frontend template
-├── uploads/              # Temporary file storage (auto-created)
-├── README.md             # This file
-├── app.py                # Full version with spaCy (needs setup)
-├── requirements.txt      # Full dependencies (includes spaCy)
-└── setup.py              # Setup for full version
+```bash
+cd full
+pip install -r requirements.txt
+python -m spacy download en_core_web_sm
+python3 app.py
 ```
 
-## Requirements
+## 🌐 Usage
 
-- Python 3.7+
-- 50MB+ available disk space
-- Internet connection (for initial setup)
+1. **Start the application** using the commands above
+2. **Open your browser** to `http://localhost:5001`
+3. **Upload a PDF resume** using the drag-and-drop interface
+4. **Enter a job description** in the text area
+5. **Click "Evaluate Resume"** to get instant analysis
+6. **Review the results** including scores and suggestions
 
-## Features in Detail
+## 🧪 Testing
 
-### Smart Keyword Extraction
+### Simple Version
 
-- Identifies technical skills, programming languages, frameworks
-- Recognizes industry-standard tools and methodologies
-- Extracts relevant entities and noun phrases
-- Filters out common words and irrelevant terms
+```bash
+cd simple
+python3 test_simple.py
+```
 
-### Comprehensive Scoring
+### Full Version
 
-- **Keyword Match Score**: Percentage of job requirements found in resume
-- **Overall Score**: Weighted combination of multiple factors
-- **Missing Keywords**: Specific terms to add to your resume
-- **Matching Keywords**: Skills already well-represented
+```bash
+cd full
+python3 test_app.py
+```
 
-### Actionable Suggestions
+## 📡 API Endpoints
 
-- Targeted recommendations based on your specific score
-- Keyword suggestions from the job description
-- General resume improvement tips
-- Industry best practices
+- **GET** `/` - Web interface
+- **POST** `/evaluate` - Resume evaluation API
+- **GET** `/health` - Health check endpoint
 
-## Troubleshooting
+## 🔧 Configuration
+
+- **Port**: 5001 (avoids macOS AirPlay conflicts)
+- **Upload Size**: 16MB maximum
+- **Supported Formats**: PDF only
+- **Upload Directory**: `uploads/` (auto-created)
+
+## 🐛 Troubleshooting
 
 ### Common Issues
 
-**"spaCy model not found"**
+1. **Port 5000 already in use**
 
-```bash
-python -m spacy download en_core_web_sm
-```
+   - The app uses port 5001 by default
+   - On macOS, disable AirPlay Receiver in System Preferences
 
-**"Permission denied" when installing**
+2. **spaCy installation fails (Full Version)**
 
-```bash
-pip install --user -r requirements.txt
-```
+   - Use Simple Version instead
+   - Ensure you have build tools installed
+   - Try using conda instead of pip
 
-**"Port already in use"**
+3. **Virtual environment issues**
 
-- Change the port in `app.py` (line 175): `app.run(debug=True, host='0.0.0.0', port=5001)`
+   - Ensure virtual environment is activated
+   - Use `which python` to verify correct Python path
 
-### System Requirements
+4. **PDF processing errors**
+   - Ensure PDF is not password protected
+   - Check file size (16MB limit)
+   - Verify PDF is text-based, not image-based
 
-- **macOS**: Tested on macOS 10.14+
-- **Windows**: Tested on Windows 10+
-- **Linux**: Tested on Ubuntu 18.04+
+## 🔄 Version Comparison
 
-## Security Notes
+| Feature                | Simple Version   | Full Version   |
+| ---------------------- | ---------------- | -------------- |
+| **Dependencies**       | Minimal          | Heavy (spaCy)  |
+| **Setup Time**         | < 1 minute       | 5-10 minutes   |
+| **Keyword Extraction** | Pattern matching | NLP + Patterns |
+| **Entity Recognition** | Basic            | Advanced       |
+| **Performance**        | Fast             | Moderate       |
+| **Accuracy**           | Good             | Excellent      |
+| **Installation**       | Easy             | Complex        |
 
-- Files are temporarily stored and automatically deleted after processing
-- No data is permanently stored or transmitted to external servers
-- Application runs locally on your machine
+## 📊 Technical Details
 
-## Contributing
+### Simple Version
 
-Feel free to submit issues and enhancement requests!
+- **Pure Python**: No external NLP dependencies
+- **Pattern Matching**: Regular expressions and string operations
+- **Fast Performance**: Instant processing
+- **Reliability**: Consistent results across platforms
 
-## License
+### Full Version
 
-This project is open source and available under the [MIT License](LICENSE).
+- **spaCy Integration**: Advanced natural language processing
+- **Named Entity Recognition**: Identifies organizations, skills, etc.
+- **Noun Phrase Extraction**: Complex technical terms
+- **Linguistic Analysis**: Part-of-speech tagging, dependency parsing
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests to ensure functionality
+5. Submit a pull request
+
+## 📝 License
+
+This project is available for educational and personal use.
+
+## 🎯 Future Enhancements
+
+- [ ] Support for Word documents
+- [ ] Batch processing capabilities
+- [ ] Resume template suggestions
+- [ ] Industry-specific analysis
+- [ ] Integration with job boards
+- [ ] Machine learning model training
+- [ ] Real-time collaborative editing
+- [ ] Export results to PDF/Excel
 
 ---
 
-**Made with ❤️ for job seekers everywhere**
+**Ready to analyze resumes?** Choose your version and get started! 🚀
