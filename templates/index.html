@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resume Evaluator</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 40px;
+        text-align: center;
+      }
+
+      .header h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        font-weight: 300;
+      }
+
+      .header p {
+        font-size: 1.2em;
+        opacity: 0.9;
+      }
+
+      .content {
+        padding: 40px;
+      }
+
+      .upload-section {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        border: 2px dashed #dee2e6;
+        transition: all 0.3s ease;
+      }
+
+      .upload-section:hover {
+        border-color: #667eea;
+        background: #f0f4ff;
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .file-input-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+      }
+
+      .file-input {
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+      }
+
+      .file-input-display {
+        display: block;
+        padding: 15px;
+        border: 2px solid #dee2e6;
+        border-radius: 10px;
+        background: white;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .file-input-display:hover {
+        border-color: #667eea;
+        background: #f0f4ff;
+      }
+
+      .file-input-display.has-file {
+        border-color: #28a745;
+        background: #f8fff8;
+      }
+
+      textarea {
+        width: 100%;
+        padding: 15px;
+        border: 2px solid #dee2e6;
+        border-radius: 10px;
+        resize: vertical;
+        min-height: 200px;
+        font-family: inherit;
+        font-size: 14px;
+        transition: border-color 0.3s ease;
+      }
+
+      textarea:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      .submit-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: block;
+        margin: 0 auto;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+      }
+
+      .submit-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      .loading {
+        display: none;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .loading-spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #667eea;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .results {
+        display: none;
+        margin-top: 30px;
+      }
+
+      .score-display {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .score-number {
+        font-size: 4em;
+        font-weight: 300;
+        margin-bottom: 10px;
+      }
+
+      .score-label {
+        font-size: 1.2em;
+        opacity: 0.9;
+      }
+
+      .analysis-section {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+      }
+
+      .analysis-section h3 {
+        color: #333;
+        margin-bottom: 15px;
+        font-size: 1.3em;
+      }
+
+      .keyword-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 15px;
+      }
+
+      .keyword-tag {
+        background: #667eea;
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.9em;
+      }
+
+      .keyword-tag.missing {
+        background: #dc3545;
+      }
+
+      .suggestions {
+        background: #e7f3ff;
+        border-left: 4px solid #667eea;
+        padding: 20px;
+        border-radius: 0 10px 10px 0;
+      }
+
+      .suggestions h3 {
+        color: #667eea;
+        margin-bottom: 15px;
+      }
+
+      .suggestion-item {
+        margin-bottom: 10px;
+        padding-left: 20px;
+        position: relative;
+      }
+
+      .suggestion-item:before {
+        content: "•";
+        color: #667eea;
+        position: absolute;
+        left: 0;
+      }
+
+      .error {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 20px 0;
+        border: 1px solid #f5c6cb;
+      }
+
+      .reset-btn {
+        background: #6c757d;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+      }
+
+      .reset-btn:hover {
+        background: #5a6268;
+      }
+
+      @media (max-width: 768px) {
+        .header h1 {
+          font-size: 2em;
+        }
+
+        .content {
+          padding: 20px;
+        }
+
+        .upload-section {
+          padding: 20px;
+        }
+
+        .score-number {
+          font-size: 3em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Resume Evaluator</h1>
+        <p>
+          Upload your resume and job description to get instant feedback and
+          suggestions
+        </p>
+      </div>
+
+      <div class="content">
+        <form id="evaluationForm">
+          <div class="upload-section">
+            <div class="form-group">
+              <label for="resume">Upload Resume (PDF)</label>
+              <div class="file-input-wrapper">
+                <input
+                  type="file"
+                  id="resume"
+                  name="resume"
+                  accept=".pdf"
+                  class="file-input"
+                  required
+                />
+                <div class="file-input-display" id="fileDisplay">
+                  <span id="fileText">Click to select your resume PDF</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="jobDescription">Job Description</label>
+              <textarea
+                id="jobDescription"
+                name="job_description"
+                placeholder="Paste the job description here..."
+                required
+              ></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+              Evaluate Resume
+            </button>
+          </div>
+        </form>
+
+        <div class="loading" id="loading">
+          <div class="loading-spinner"></div>
+          <p>Analyzing your resume...</p>
+        </div>
+
+        <div class="results" id="results">
+          <div class="score-display">
+            <div class="score-number" id="overallScore">0</div>
+            <div class="score-label">Overall Match Score</div>
+          </div>
+
+          <div class="analysis-section">
+            <h3>📊 Detailed Analysis</h3>
+            <p>
+              <strong>Keyword Match Score:</strong>
+              <span id="keywordScore">0</span>%
+            </p>
+
+            <div style="margin-top: 20px">
+              <h4>✅ Matching Keywords</h4>
+              <div class="keyword-list" id="matchingKeywords"></div>
+            </div>
+
+            <div style="margin-top: 20px">
+              <h4>❌ Missing Keywords</h4>
+              <div class="keyword-list" id="missingKeywords"></div>
+            </div>
+          </div>
+
+          <div class="suggestions">
+            <h3>💡 Improvement Suggestions</h3>
+            <div id="suggestionsList"></div>
+          </div>
+
+          <button class="reset-btn" onclick="resetForm()">
+            Analyze Another Resume
+          </button>
+        </div>
+
+        <div class="error" id="error" style="display: none"></div>
+      </div>
+    </div>
+
+    <script>
+      // File input handling
+      document
+        .getElementById("resume")
+        .addEventListener("change", function (e) {
+          const fileDisplay = document.getElementById("fileDisplay");
+          const fileText = document.getElementById("fileText");
+
+          if (e.target.files.length > 0) {
+            const fileName = e.target.files[0].name;
+            fileText.textContent = `Selected: ${fileName}`;
+            fileDisplay.classList.add("has-file");
+          } else {
+            fileText.textContent = "Click to select your resume PDF";
+            fileDisplay.classList.remove("has-file");
+          }
+        });
+
+      // Form submission
+      document
+        .getElementById("evaluationForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const formData = new FormData(this);
+          const submitBtn = document.getElementById("submitBtn");
+          const loading = document.getElementById("loading");
+          const results = document.getElementById("results");
+          const error = document.getElementById("error");
+
+          // Reset previous results
+          results.style.display = "none";
+          error.style.display = "none";
+
+          // Show loading
+          loading.style.display = "block";
+          submitBtn.disabled = true;
+
+          try {
+            const response = await fetch("/evaluate", {
+              method: "POST",
+              body: formData,
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+              displayResults(data);
+            } else {
+              showError(data.error || "An error occurred");
+            }
+          } catch (err) {
+            showError("Network error. Please try again.");
+          } finally {
+            loading.style.display = "none";
+            submitBtn.disabled = false;
+          }
+        });
+
+      function displayResults(data) {
+        const analysis = data.analysis;
+        const suggestions = data.suggestions;
+
+        // Update scores
+        document.getElementById("overallScore").textContent =
+          analysis.overall_score;
+        document.getElementById("keywordScore").textContent =
+          analysis.keyword_score;
+
+        // Update matching keywords
+        const matchingKeywords = document.getElementById("matchingKeywords");
+        matchingKeywords.innerHTML = "";
+        analysis.common_keywords.forEach((keyword) => {
+          const tag = document.createElement("span");
+          tag.className = "keyword-tag";
+          tag.textContent = keyword;
+          matchingKeywords.appendChild(tag);
+        });
+
+        // Update missing keywords
+        const missingKeywords = document.getElementById("missingKeywords");
+        missingKeywords.innerHTML = "";
+        analysis.missing_keywords.slice(0, 10).forEach((keyword) => {
+          const tag = document.createElement("span");
+          tag.className = "keyword-tag missing";
+          tag.textContent = keyword;
+          missingKeywords.appendChild(tag);
+        });
+
+        // Update suggestions
+        const suggestionsList = document.getElementById("suggestionsList");
+        suggestionsList.innerHTML = "";
+        suggestions.forEach((suggestion) => {
+          const item = document.createElement("div");
+          item.className = "suggestion-item";
+          item.textContent = suggestion;
+          suggestionsList.appendChild(item);
+        });
+
+        // Show results
+        document.getElementById("results").style.display = "block";
+
+        // Scroll to results
+        document
+          .getElementById("results")
+          .scrollIntoView({ behavior: "smooth" });
+      }
+
+      function showError(message) {
+        const error = document.getElementById("error");
+        error.textContent = message;
+        error.style.display = "block";
+        error.scrollIntoView({ behavior: "smooth" });
+      }
+
+      function resetForm() {
+        document.getElementById("evaluationForm").reset();
+        document.getElementById("fileDisplay").classList.remove("has-file");
+        document.getElementById("fileText").textContent =
+          "Click to select your resume PDF";
+        document.getElementById("results").style.display = "none";
+        document.getElementById("error").style.display = "none";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    </script>
+  </body>
+</html>
